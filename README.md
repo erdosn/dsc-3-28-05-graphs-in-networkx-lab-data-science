@@ -11,6 +11,22 @@ You will be able to:
 - Understand properties of nodes and edges, and how they are added and removed to a graph
 - Visualize graphs with networkx and matplotlib with conditional coloring
 
+### High Overview
+YWBAT
+* explain when graphs are used in machine learning and deep learning
+    * Show relationships
+    * Recommender Systems
+    * Deep learning (Neural Networks)
+* identify the various parts of a graph
+    * Nodes
+    * Edges
+    * Attributes
+    * Weights for edges
+* describe how matrices relate to graphs
+
+### What are the parts of a graph?
+* Nodes, edges
+
 ## Exercise 1
 
 Consider the following list of tuples showing connection strengths between a number of cities.
@@ -30,7 +46,29 @@ import matplotlib.pyplot as plt
 
 
 G = nx.Graph()
+```
+
+
+```python
 list_of_cities = [('Paris', 'Warsaw', 841), ('Warsaw', 'Berlin', 584), ('Berlin', 'London', 1101), ('Paris', 'Barcelona', 1038)]
+
+list_of_cities
+
+
+```
+
+
+
+
+    [('Paris', 'Warsaw', 841),
+     ('Warsaw', 'Berlin', 584),
+     ('Berlin', 'London', 1101),
+     ('Paris', 'Barcelona', 1038)]
+
+
+
+
+```python
 G.add_weighted_edges_from(list_of_cities)
 
 # print G.nodes()
@@ -79,17 +117,32 @@ Here are the specifications for this graph
 
 
 ```python
-g = nx.Graph()
+g = nx.Graph() # Instantiate a graph
+```
 
+
+```python
 # Attach a size attribute to each node to describe how big we want the node to be
-g.add_node(1, size= 800)
-g.add_node(2, size= 200)
-g.add_node(3, size= 200)
-g.add_node(4, size= 200)
-g.add_node(5, size= 200)
+g.add_node(1, size = 800) # Adding a node with 'that' weight 
+g.add_node(2, size = 200)
+g.add_node(3, size = 200)
+g.add_node(4, size = 200)
+g.add_node(5, size = 200)
+```
 
+
+```python
+nx.draw(g, with_labels=True)
+```
+
+
+![png](index_files/index_13_0.png)
+
+
+
+```python
 # Attach a thickness attribute to each edge to describe how much weight we want to assign it 
-g.add_edge(1,2, thickness = 20)
+g.add_edge(1,2, thickness = 20) # edge between node 1 and 2, thickness is line thickness
 g.add_edge(1,3, thickness = 20)
 g.add_edge(1,4, thickness = 20)
 g.add_edge(1,5, thickness = 20)
@@ -97,13 +150,45 @@ g.add_edge(2,3, thickness = 5)
 g.add_edge(3,4, thickness = 5)
 g.add_edge(4,5, thickness = 5)
 g.add_edge(5,2,thickness = 5)
+```
 
+
+```python
+nx.draw(g, with_labels=True)
+```
+
+
+![png](index_files/index_15_0.png)
+
+
+
+```python
 # Iterate through the nodes and edges and extract the list of node & edge sizes
 node_size = [attribs['size'] for (node, attribs) in g.nodes(data=True)]
+
+# for (node, attribs) in g.nodes(data=True):
+#     print(node, attribs)
+#     print(attribs['size'])
+
+
 edge_thickness = [attribs['thickness'] for (v_from, v_to, attribs) in g.edges(data=True)]
+```
 
 
-nx.draw(g, 
+```python
+node_size, edge_thickness
+```
+
+
+
+
+    ([800, 200, 200, 200, 200], [20, 20, 20, 20, 5, 5, 5, 5])
+
+
+
+
+```python
+nx.draw_kamada_kawai(g, 
     node_size = node_size,   # node_size can either take a single value (where all nodes will be size N),
                              # or a list of values, where Nth list value will be the size for the Nth node
     node_color = 'salmon',
@@ -114,7 +199,7 @@ nx.draw(g,
 ```
 
 
-![png](index_files/index_7_0.png)
+![png](index_files/index_18_0.png)
 
 
 ## Exercise 3
@@ -140,7 +225,7 @@ nx.draw(GA, with_labels=True)
 
 
 
-![png](index_files/index_9_1.png)
+![png](index_files/index_20_1.png)
 
 
 ## Exercise 4
@@ -153,6 +238,212 @@ Plot the above graph in a circular layout as shown below
     - edge width = 3
     - dotted edge style
     - edge color = grey
+
+
+```python
+for node in GA.node():
+    print(node)
+    print(len(GA.edges(node)))
+    partners = []
+    for couple in GA.edges(node):
+        partners.append(couple[1])
+    print(partners)
+    print("\n\n")
+```
+
+    lexi
+    3
+    ['sloan', 'karev', 'avery']
+    
+    
+    
+    sloan
+    5
+    ['lexi', 'torres', 'altman', 'addison', 'nancy']
+    
+    
+    
+    karev
+    7
+    ['lexi', 'torres', 'izzie', 'kepner', 'addison', 'olivia', 'mrs. seabury']
+    
+    
+    
+    owen
+    2
+    ['yang', 'altman']
+    
+    
+    
+    yang
+    3
+    ['owen', 'colin', 'preston']
+    
+    
+    
+    altman
+    2
+    ['sloan', 'owen']
+    
+    
+    
+    torres
+    4
+    ['sloan', 'karev', 'arizona', "o'malley"]
+    
+    
+    
+    arizona
+    1
+    ['torres']
+    
+    
+    
+    derek
+    2
+    ['grey', 'addison']
+    
+    
+    
+    grey
+    4
+    ['derek', "o'malley", 'finn', 'steve']
+    
+    
+    
+    izzie
+    4
+    ['karev', "o'malley", 'hank', 'denny']
+    
+    
+    
+    o'malley
+    4
+    ['torres', 'grey', 'izzie', 'olivia']
+    
+    
+    
+    colin
+    1
+    ['yang']
+    
+    
+    
+    preston
+    1
+    ['yang']
+    
+    
+    
+    kepner
+    1
+    ['karev']
+    
+    
+    
+    addison
+    3
+    ['sloan', 'karev', 'derek']
+    
+    
+    
+    nancy
+    1
+    ['sloan']
+    
+    
+    
+    olivia
+    2
+    ['karev', "o'malley"]
+    
+    
+    
+    mrs. seabury
+    1
+    ['karev']
+    
+    
+    
+    chief
+    2
+    ['adele', 'ellis grey']
+    
+    
+    
+    adele
+    1
+    ['chief']
+    
+    
+    
+    ellis grey
+    2
+    ['chief', 'thatch grey']
+    
+    
+    
+    thatch grey
+    2
+    ['ellis grey', 'susan grey']
+    
+    
+    
+    susan grey
+    1
+    ['thatch grey']
+    
+    
+    
+    bailey
+    2
+    ['tucker', 'ben']
+    
+    
+    
+    tucker
+    1
+    ['bailey']
+    
+    
+    
+    hank
+    1
+    ['izzie']
+    
+    
+    
+    denny
+    1
+    ['izzie']
+    
+    
+    
+    finn
+    1
+    ['grey']
+    
+    
+    
+    steve
+    1
+    ['grey']
+    
+    
+    
+    ben
+    1
+    ['bailey']
+    
+    
+    
+    avery
+    1
+    ['lexi']
+    
+    
+    
+
 
 
 ```python
@@ -173,7 +464,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_11_0.png)
+![png](index_files/index_23_0.png)
 
 
 ## Exercise 5
@@ -230,7 +521,46 @@ for k, v in dead_or_alive.items():
  
 ```
 
+
+```python
+for person in GA.nodes(data=True):
+    if person[1]['status'] == 'dead':
+        print (person)
+        print(len(GA.edges(person[0])))
+    # print the person if they're dead
+```
+
+    ('lexi', {'label': 'lexi', 'status': 'dead'})
+    3
+    ('sloan', {'label': 'sloan', 'status': 'dead'})
+    5
+    ('derek', {'label': 'derek', 'status': 'dead'})
+    2
+    ("o'malley", {'label': "o'malley", 'status': 'dead'})
+    4
+    ('adele', {'label': 'adele', 'status': 'dead'})
+    1
+    ('ellis grey', {'label': 'ellis grey', 'status': 'dead'})
+    2
+    ('susan grey', {'label': 'susan grey', 'status': 'dead'})
+    1
+    ('denny', {'label': 'denny', 'status': 'dead'})
+    1
+
+
 Here is a function `create_color_map()` that takes in a graph, an attribute for conditional coloring and a seaborn color palette. This function returns a hex color mapping for coloring the nodes of a graph, based on number of classes present in the given attribute. So for our DOA `status` attribute, we need two colors. 
+
+
+```python
+GA.node['denny']['status']
+```
+
+
+
+
+    'dead'
+
+
 
 
 ```python
@@ -239,7 +569,7 @@ def create_color_map(G, attribute, seaborn_palette="colorblind"):
 
     attr = [G.node[label][attribute] for label in G.nodes()]
     # get the set of possible attributes
-    attr_uniq = list(set(attr))
+    attr_uniq = list(set(attr)) 
     vals = len(attr_uniq)
     # generate color palette from seaborn
     palette = color_palette(seaborn_palette, vals).as_hex()
@@ -271,7 +601,7 @@ set_style('white')
 plt.figure(figsize=(15,15))
 plt.axis('off')
 
-layout = nx.spring_layout(GA)
+layout = nx.circular_layout(GA)
 nx.draw_networkx_nodes(GA, layout, node_color=node_colors, node_size=500)
 nx.draw_networkx_labels(GA, pos=layout, font_size=16)
 nx.draw_networkx_edges(GA, layout, width=3)
@@ -284,14 +614,14 @@ palplot(palette)
 ```
 
 
-![png](index_files/index_20_0.png)
+![png](index_files/index_34_0.png)
 
 
     {'dead': '#0072b2', 'alive': '#009e73'}
 
 
 
-![png](index_files/index_20_2.png)
+![png](index_files/index_34_2.png)
 
 
 ## Summary 
